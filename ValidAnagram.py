@@ -17,6 +17,14 @@ class Solution:
                 return False
             ans[ord(j) - ord("a")] -= 1
         return True
+    
+#or
+ 
+class Solution:
+    def isAnagram(self, s: str, t: str) -> bool:
+        s = sorted(s)
+        t = sorted(t)
+        return s == t
 
 '''
 Example 1:
