@@ -6,7 +6,7 @@ You may assume that the majority element always exists in the array.
 '''
 
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
+    def majorityElement(self, nums: list[int]) -> int:
         n = len(nums)
         nums.sort()
         return nums[n // 2]
@@ -14,7 +14,7 @@ class Solution:
 #or
     
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
+    def majorityElement(self, nums: list[int]) -> int:
         ans = {}
         for i in nums:
             if i in ans:
@@ -29,7 +29,7 @@ class Solution:
 #or
             
 class Solution:
-    def majorityElement(self, nums: List[int]) -> int:
+    def majorityElement(self, nums: list[int]) -> int:
         count = 0
         copy = 0
         for i in nums:
