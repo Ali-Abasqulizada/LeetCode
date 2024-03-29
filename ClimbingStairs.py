@@ -16,6 +16,16 @@ class Solution:
     
 class Solution:
     def climbStairs(self, n: int) -> int:
+        left = 1
+        right = 2
+        for _ in range(n - 1):
+            left, right = right, left + right
+        return left
+
+#or
+    
+class Solution:
+    def climbStairs(self, n: int) -> int:
         if n <= 2:
             return n
         ans = [0] * n

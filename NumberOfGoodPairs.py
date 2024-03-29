@@ -12,7 +12,21 @@ class Solution:
                 if nums[i] == nums[j]:
                     count += 1
         return count
-    
+
+#or
+
+class Solution:
+    def numIdenticalPairs(self, nums: list[int]) -> int:
+        check = {}
+        count = 0
+        for i in nums:
+            if i in check:
+                count += check[i]
+                check[i] += 1
+            else:
+                check[i] = 1
+        return count
+
 '''
 Example 1:
 

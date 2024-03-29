@@ -22,6 +22,39 @@ class Solution:
             stones[-2] = stones[-1] - stones[-2]
             stones.pop()
 
+#or
+            
+class Solution:
+    def lastStoneWeight(self, stones: list[int]) -> int:
+        stones = sorted(stones)
+        while stones:
+            s1 = stones.pop()
+            if not stones:
+                return s1
+            s2 = stones.pop()
+            if s1 > s2:
+                for i in range(len(stones) + 1):
+                    if i == len(stones) or stones[i] >= s1 - s2:
+                        stones.insert(i, s1 - s2)
+                        break
+        return 0
+    
+#or
+    
+import heapq   
+class Solution:
+    def lastStoneWeight(self, stones: list[int]) -> int:
+        stones = [-i for i in stones]
+        heapq.heapify(stones)
+        while stones:
+            s1 = -heapq.heappop(stones)
+            if not stones:
+                return s1
+            s2 = -heapq.heappop(stones)
+            if s1 > s2:
+                heapq.heappush(stones, s2 - s1)
+        return 0
+
 '''
 Example 1:
 

@@ -8,7 +8,16 @@ class Solution:
         length = len(nums)
         total = length * (length + 1) // 2
         return total - sum(nums)
-    
+
+#or
+
+class Solution:
+    def missingNumber(self, nums: list[int]) -> int:
+        total = 0
+        for i in range(len(nums) + 1):
+            total += i
+        return total - sum(nums)
+
 '''
 Example 1:
 

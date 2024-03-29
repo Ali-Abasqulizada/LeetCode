@@ -22,10 +22,7 @@ class Solution:
                 current.next = ListNode(list1.val)
                 list1 = list1.next
             current = current.next
-        if list1:
-            current.next = list1
-        elif list2:
-            current.next = list2
+        current.next = list1 if list1 else list2
         return first.next
     
 '''
