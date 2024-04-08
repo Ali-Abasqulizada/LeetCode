@@ -14,7 +14,35 @@ class Solution:
         if not root:
             return 0
         return max(self.maxDepth(root.left), self.maxDepth(root.right)) + 1
-    
+
+#or
+
+from collections import deque
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def maxDepth(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        queue = deque()
+        queue.append(root)
+        level = 0
+        number_of_nodes_on_same_level = 1
+        while queue:
+            node = queue.popleft()
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+            number_of_nodes_on_same_level -= 1
+            if number_of_nodes_on_same_level == 0:
+                level += 1
+                number_of_nodes_on_same_level = len(queue)
+        return level
+
 '''
 Example 1:
 

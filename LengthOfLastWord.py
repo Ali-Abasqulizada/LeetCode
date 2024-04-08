@@ -21,6 +21,22 @@ class Solution:
             ans += 1
             i -= 1
         return ans 
+    
+#or
+
+class Solution:
+    def lengthOfLastWord(self, s: str) -> int:
+        reach = False
+        count = 0
+        for i in range(len(s) - 1, -1, -1):
+            if s[i] == " " and not reach:
+                continue
+            elif s[i] != " ":
+                count += 1
+                reach = True
+            else:
+                break
+        return count
 
 '''
 Example 1:
