@@ -28,6 +28,29 @@ class Solution:
             ans.append(level)
         return ans
     
+#or
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def levelOrder(self, root: TreeNode) -> list[list[int]]:
+        if not root:
+            return []
+        ans = []
+        def find(root, level):
+            if not root:
+                return
+            elif len(ans) <= level:
+                ans.append([])
+            ans[level].append(root.val)
+            find(root.left, level + 1)
+            find(root.right, level + 1)
+        find(root, 0)
+        return ans
+
 '''
 Example 1:
 
