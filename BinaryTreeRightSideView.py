@@ -29,7 +29,28 @@ class Solution:
             ans.append(val.val)
             queue = check
         return ans
-  
+
+#or
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def rightSideView(self, root: TreeNode) -> list[int]:
+        ans = []
+        def find(root, level):
+            if not root:
+                return
+            if len(ans) == level:
+                ans.append(root.val)
+            find(root.right, level + 1)
+            find(root.left, level + 1)
+        find(root, 0)
+        return ans
+
 '''
 Example 1:
 
