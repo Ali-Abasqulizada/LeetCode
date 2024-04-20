@@ -35,6 +35,34 @@ class Solution:
                     islands += 1
         return islands
     
+#or
+
+class Solution:
+    def numIslands(self, grid: list[list[str]]) -> int:
+        if not grid:
+            return 0
+        rows, cols = len(grid), len(grid[0])
+        ans = 0
+        visit = set()
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == "1" and (r, c) not in visit:
+                    check = deque()
+                    check.append((r, c))
+                    visit.add((r, c))
+                    while check:
+                        row, col = check.popleft()
+                        for dr, dc in [1, 0], [0, 1], [0, -1], [-1, 0]:
+                            rr, cc = dr + row, dc + col
+                            if 0 <= rr < rows and \
+                                0 <= cc < cols and \
+                                (rr, cc) not in visit and \
+                                grid[rr][cc] == "1":
+                                check.append((rr, cc))
+                                visit.add((rr, cc))
+                    ans += 1
+        return ans
+
 '''
 Example 1:
 

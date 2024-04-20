@@ -13,51 +13,46 @@ Return the modified image after performing the flood fill.
 from collections import deque
 class Solution:
     def floodFill(self, image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:
-        if color == image[sr][sc]:
+        if image[sr][sc] == color:
             return image
-        row, col = len(image), len(image[0])
         check = deque()
         check.append((sr, sc))
         visit = set()
-        ans = [(sr, sc)]
+        visit.add((sr, sc))
+        rows, cols = len(image), len(image[0])
         while check:
-            r, c = check.popleft()
-            if (r, c) not in visit:
-                visit.add((r, c))
-                val = image[r][c]
-                if r > 0 and image[r - 1][c] == val:
-                    ans.append((r - 1, c))
-                    check.append((r - 1, c))
-                if r < row - 1 and image[r + 1][c] == val:
-                    check.append((r + 1, c))
-                    ans.append((r + 1, c))
-                if c > 0 and image[r][c - 1] == val:
-                    check.append((r, c - 1))
-                    ans.append((r, c - 1))
-                if c < col - 1 and image[r][c + 1] == val:
-                    check.append((r, c + 1))
-                    ans.append((r, c + 1))
-        for i, j in ans:
-            image[i][j] = color
+            row, col = check.popleft()
+            for dr, dc in [[1, 0], [-1, 0], [0, 1], [0, -1]]:
+                r, c = dr + row, dc + col
+                if 0 <= r < rows and \
+                    0 <= c < cols and \
+                    (r, c) not in visit and \
+                    image[r][c] == image[sr][sc]:
+                    check.append((r, c))
+                    visit.add((r, c))
+                    image[r][c] = color
+        image[sr][sc] = color
         return image
 
 #or
 
 class Solution:
-    def find(self, image, sr, sc, color, cur):
-        if sr < 0 or sr >= len(image) or sc < 0 or sc >= len(image[0]):
-            return 
-        elif cur != image[sr][sc]:
-            return
-        image[sr][sc] = color
-        self.find(image, sr + 1, sc, color, cur)
-        self.find(image, sr - 1, sc, color, cur)
-        self.find(image, sr, sc + 1, color, cur)
-        self.find(image, sr, sc - 1, color, cur)
     def floodFill(self, image: list[list[int]], sr: int, sc: int, color: int) -> list[list[int]]:
-        if image[sr][sc] == color:
+        if color == image[sr][sc]:
             return image
-        self.find(image, sr, sc, color, image[sr][sc])
+        rows, cols = len(image), len(image[0])
+        start = image[sr][sc]
+        def find(r, c):
+            if r < 0 or r >= rows or c < 0 or c >= cols:
+                return
+            elif image[r][c] != start:
+                return
+            image[r][c] = color
+            find(r + 1, c)
+            find(r - 1, c)
+            find(r, c + 1)
+            find(r, c - 1)
+        find(sr, sc)
         return image
 
 '''

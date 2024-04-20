@@ -27,6 +27,27 @@ class Solution:
                         perimeter -= 1
         return perimeter
     
+#or
+
+class Solution:
+    def islandPerimeter(self, grid: list[list[int]]) -> int:
+        ans = 0
+        rows, cols = len(grid), len(grid[0])
+        def find(r, c):
+            if r < 0 or r >= rows or c < 0 or c >= cols:
+                return 1
+            elif grid[r][c] == 0:
+                return 1
+            elif grid[r][c] == -1:
+                return 0
+            grid[r][c] = -1
+            return find(r + 1, c) + find(r - 1, c) + find(r, c + 1) + find(r, c - 1)
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1:
+                    ans += find(r, c)
+        return ans
+
 '''
 Example 1:
 

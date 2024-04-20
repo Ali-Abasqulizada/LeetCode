@@ -18,6 +18,28 @@ class Solution:
             return targetSum == root.val
         return self.hasPathSum(root.left, targetSum - root.val) or self.hasPathSum(root.right, targetSum - root.val)
 
+#or
+
+from collections import deque
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution:
+    def hasPathSum(self, root: TreeNode, targetSum: int) -> bool:
+        check = deque()
+        check.append((root, targetSum))
+        while check:
+            node, tSum = check.popleft()
+            if not node:
+                continue
+            elif not node.left and not node.right and node.val == tSum:
+                return True
+            check.append((node.left, tSum - node.val))
+            check.append((node.right, tSum - node.val))
+        return False
+
 '''
 Example 1:
 

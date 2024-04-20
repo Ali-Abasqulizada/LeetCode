@@ -26,7 +26,34 @@ class Solution:
             ans.left = self.mergeTrees(root1.left, root2.left)
             ans.right = self.mergeTrees(root1.right, root2.right)
         return ans
-    
+
+#or
+
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+class Solution: 
+    def mergeTrees(self, root1: TreeNode, root2: TreeNode) -> TreeNode:
+        if not root1:
+            return root2
+        elif not root2:
+            return root1
+        check = [[root1, root2]]
+        while check:
+            node1, node2 = check.pop()
+            if node1.left and node2.left:
+                check.append((node1.left, node2.left))
+            elif not node1.left:
+                node1.left = node2.left
+            if node1.right and node2.right:
+                check.append((node1.right, node2.right))
+            elif not node1.right:
+                node1.right = node2.right
+            node1.val += node2.val
+        return root1
+
 '''
 Example 1:
 

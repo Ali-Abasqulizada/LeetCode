@@ -29,7 +29,31 @@ class Solution:
             if not find(cor):
                 return False
         return True
-    
+
+#or
+
+from collections import deque
+class Solution:
+    def canFinish(self, numCourses: int, prerequisites: list[list[int]]) -> bool:
+        check = [[] for _ in range(numCourses)]
+        course = [0] * numCourses
+        ans = []
+        for cor, pcor in prerequisites:
+            check[pcor].append(cor)
+            course[cor] += 1
+        solve = deque()
+        for pcor in range(numCourses):
+            if course[pcor] == 0:
+                solve.append(pcor)
+        while solve:
+            pcor = solve.popleft()
+            ans.append(pcor)
+            for cor in check[pcor]:
+                course[cor] -= 1
+                if course[cor] == 0:
+                    solve.append(cor)
+        return len(ans) == numCourses
+
 '''
 Example 1:
 
