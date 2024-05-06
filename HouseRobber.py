@@ -28,6 +28,19 @@ class Solution:
             check[n] = max(check[n - 1], check[n - 2] + nums[n])
         return check[-1]
 
+
+#or
+
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        if len(nums) == 0: return 0
+        elif len(nums) <= 2: return max(nums)
+        house1 = nums[0]
+        house2 = max(nums[1], nums[0])
+        for n in range(2, len(nums)):
+            house1, house2 = house2, max(house2, house1 + nums[n])
+        return house2
+
 '''
 Example 1:
 
