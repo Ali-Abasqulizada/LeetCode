@@ -19,6 +19,23 @@ class Solution:
                     check[i][j] = max(check[i + 1][j], check[i][j + 1])
         return check[0][0]
 
+#or
+
+from functools import cache
+class Solution:
+    def longestCommonSubsequence(self, text1: str, text2: str) -> int:
+        @cache
+        def find(r, c):
+            if r >= len(text1) or c >= len(text2):
+                return 0
+            ans = 0
+            if text1[r] == text2[c]:
+                ans += (1 + find(r + 1, c + 1))
+            else:
+                ans += max(find(r + 1, c), find(r, c + 1))
+            return ans
+        return find(0, 0)
+
 '''
 Example 1:
 

@@ -26,6 +26,26 @@ class Solution:
             return check[(i, buying)]
         return find(0, True)
 
+#or
+
+from functools import cache
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        @cache
+        def find(i, buying):
+            if i >= len(prices):
+                return 0
+            ans = 0
+            cooldown = find(i + 1, buying)
+            if buying:
+                buy = find(i + 1, not buying) - prices[i]
+                ans = max(buy, cooldown)
+            else:
+                sell = find(i + 2, not buying) + prices[i]
+                ans = max(sell, cooldown)
+            return ans
+        return find(0, True)
+
 '''
 Example 1:
 

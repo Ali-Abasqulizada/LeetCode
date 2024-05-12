@@ -33,6 +33,29 @@ class Solution:
             return check[-1]
         return max(find(nums[1:]), find(nums[:-1]))
 
+#or
+
+from functools import cache
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        if len(nums) == 1:
+            return nums[0]
+        @cache
+        def find1(i):
+            if i >= len(nums):
+                return 0
+            if i == len(nums) - 1:
+                return nums[i]
+            return max(find1(i + 2) + nums[i], find1(i + 1))
+        @cache
+        def find2(i):
+            if i < 0:
+                return 0
+            elif i == 0:
+                return nums[i]
+            return max(find2(i - 2) + nums[i], find2(i - 1))
+        return max(find1(1), find2(len(nums) - 2))
+
 '''
 Example 1:
 

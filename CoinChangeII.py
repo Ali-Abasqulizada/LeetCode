@@ -19,6 +19,22 @@ class Solution:
                 check[a] += check[a - c]
         return check[-1]
 
+#or
+
+from functools import cache
+class Solution:
+    def change(self, amount: int, coins: list[int]) -> int:
+        @cache
+        def find(money, index):
+            if money == amount:
+                return 1
+            numberOfWay = 0
+            for c in range(index, len(coins)):
+                if money + coins[c] <= amount:
+                    numberOfWay += find(money + coins[c], c)
+            return numberOfWay 
+        return find(0, 0)
+
 '''
 Example 1:
 

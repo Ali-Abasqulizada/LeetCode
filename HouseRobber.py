@@ -41,6 +41,34 @@ class Solution:
             house1, house2 = house2, max(house2, house1 + nums[n])
         return house2
 
+#or
+
+from functools import cache
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        @cache
+        def find(i):
+            if i >= len(nums):
+                return 0
+            if i == len(nums) - 1:
+                return nums[i]
+            return max(find(i + 2) + nums[i], find(i + 1))
+        return find(0)
+
+#or
+
+from functools import cache
+class Solution:
+    def rob(self, nums: list[int]) -> int:
+        @cache
+        def find(i):
+            if i < 0:
+                return 0
+            if i == 0:
+                return nums[i]
+            return max(find(i - 2) + nums[i], find(i - 1))
+        return find(len(nums) - 1)
+
 '''
 Example 1:
 

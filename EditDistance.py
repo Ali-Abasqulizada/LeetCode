@@ -22,7 +22,24 @@ class Solution:
                 else:
                     check[i][j] = 1 + min(check[i + 1][j + 1], check[i + 1][j], check[i][j + 1])
         return check[0][0]
-    
+
+#or
+
+from functools import cache
+class Solution:
+    def minDistance(self, word1: str, word2: str) -> int:
+        @cache
+        def find(i, j):
+            if i == len(word1):
+                return len(word2) - j
+            if j == len(word2):
+                return len(word1) - i
+            if word1[i] == word2[j]:
+                return find(i + 1, j + 1)
+            else:
+                return 1 + min(find(i + 1, j + 1), find(i + 1, j), find(i, j + 1))
+        return find(0, 0)
+
 '''
 Example 1:
 

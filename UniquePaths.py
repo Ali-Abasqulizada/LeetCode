@@ -28,6 +28,20 @@ class Solution:
                 check[r][c] = check[r + 1][c] + check[r][c + 1]
         return check[0][0]
 
+#or
+
+from functools import cache
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @cache
+        def find(r, c):
+            if r >= m - 1:
+                return 1
+            if c >= n - 1:
+                return 1
+            return find(r + 1, c) + find(r, c + 1)
+        return find(0, 0)
+
 '''
 Example 1:
 

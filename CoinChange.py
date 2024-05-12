@@ -34,6 +34,40 @@ class Solution:
         ans = find(amount, {})
         return ans if ans != float("inf") else -1
 
+#or
+
+from functools import cache
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        @cache
+        def find(money):
+            if money == amount:
+                return 0
+            numberOfCoin = float("inf")
+            for c in coins:
+                if c + money <= amount:
+                    numberOfCoin = min(numberOfCoin, 1 + find(money + c))
+            return numberOfCoin
+        ans = find(0)
+        return ans if ans != float("inf") else -1
+
+#or
+
+from functools import cache
+class Solution:
+    def coinChange(self, coins: list[int], amount: int) -> int:
+        @cache
+        def find(money):
+            if money == 0:
+                return 0
+            numberOfCoin = float("inf")
+            for c in coins:
+                if money - c >= 0:
+                    numberOfCoin = min(numberOfCoin, 1 + find(money - c))
+            return numberOfCoin
+        ans = find(amount)
+        return ans if ans != float("inf") else -1
+
 '''
 Example 1:
 
