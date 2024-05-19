@@ -41,6 +41,18 @@ class Solution:
                 return 1
             return find(r + 1, c) + find(r, c + 1)
         return find(0, 0)
+   
+#or
+
+from functools import cache
+class Solution:
+    def uniquePaths(self, m: int, n: int) -> int:
+        @cache
+        def find(i, j):
+            if i <= 0 or j <= 0:
+                return 1
+            return find(i - 1, j) + find(i, j - 1)
+        return find(m - 1, n - 1)
 
 '''
 Example 1:

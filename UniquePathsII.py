@@ -23,6 +23,36 @@ class Solution:
                     ans[c] += ans[c + 1]
         return ans[0]
 
+#or
+
+class Solution:
+    def uniquePathsWithObstacles(self, grid: list[list[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        check = [0] * cols
+        check[0] = 1
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c]:
+                    check[c] = 0
+                elif c > 0:
+                    check[c] += check[c - 1]
+        return check[-1]
+
+#or
+
+from functools import cache
+class Solution:
+    def uniquePathsWithObstacles(self, grid: list[list[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        @cache
+        def find(i, j):
+            if i >= rows or j >= cols or grid[i][j]:
+                return 0
+            elif i == rows - 1 and j == cols - 1:
+                return 1
+            return find(i + 1, j) + find(i, j + 1)
+        return find(0, 0)
+
 '''
 Example 1:
 

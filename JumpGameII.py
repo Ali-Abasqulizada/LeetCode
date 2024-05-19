@@ -21,6 +21,21 @@ class Solution:
             ans += 1
         return ans
     
+#or
+
+from functools import cache
+class Solution:
+    def jump(self, nums: list[int]) -> int:
+        @cache
+        def find(i):
+            if i >= len(nums) - 1:
+                return 0
+            ans = float("inf")
+            for j in range(i, i + nums[i]):
+                ans = min(ans, 1 + find(j + 1))
+            return ans
+        return find(0)
+
 '''
 Example 1:
 

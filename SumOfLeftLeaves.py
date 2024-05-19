@@ -40,6 +40,48 @@ class Solution:
                 stack.append((cur.right, False))
         return ans
 
+#or
+
+from collections import deque
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        ans = 0
+        check = deque()
+        check.append((root, False))
+        while check:
+            node, is_left = check.popleft()
+            if not node:
+                continue
+            if not node.left and not node.right:
+                if is_left:
+                    ans += node.val
+                continue
+            check.append((node.left, True))
+            check.append((node.right, False))
+        return ans
+
+#or
+
+class Solution:
+    def sumOfLeftLeaves(self, root: TreeNode) -> int:
+        if not root:
+            return 0
+        ans = 0
+        def find(node, is_left):
+            nonlocal ans
+            if not node:
+                return 
+            if not node.left and not node.right:
+                if is_left:
+                    ans += node.val
+                return
+            find(node.left, True)
+            find(node.right, False)
+        find(root, False)
+        return ans
+
 '''
 Example 1:
 
