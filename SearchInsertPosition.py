@@ -6,7 +6,7 @@ You must write an algorithm with O(log n) runtime complexity.
 '''
 
 class Solution:
-    def searchInsert(self, nums: List[int], target: int) -> int:
+    def searchInsert(self, nums: list[int], target: int) -> int:
         left = 0
         right = len(nums) - 1
         while left <= right:
