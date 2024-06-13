@@ -2,38 +2,71 @@ from collections import deque
 class Solution:
     def solve(self, board: list[list[str]]) -> None:
         rows, cols = len(board), len(board[0])
-        visit = set()
-        def find(i, j):
-            check = deque()
-            check.append((i, j))
-            visit.add((i, j))
-            while check:
-                r, c = check.popleft()
-                for dr, dc in [1, 0], [0, 1], [-1, 0], [0, -1]:
-                    rr, cc = r + dr, c + dc
-                    if 0 <= rr < rows and 0 <= cc < cols and (rr, cc) not in visit and board[rr][cc] == "O":
-                        board[rr][cc] = "U"
-                        visit.add((rr, cc))
-                        check.append((rr, cc))
+        check, visit = set(), set()
         for j in range(cols):
-            if board[0][j] == "O" and (0, j) not in visit:
-                board[0][j] = "U"
-                find(0, j)
-        for i in range(1, rows):
-            if board[i][cols - 1] == "O" and (i, cols - 1) not in visit:
-                board[i][cols - 1] = "U"
-                find(i, cols - 1)
-        for j in range(cols - 2, -1, -1):
-            if board[rows - 1][j] == "O" and (rows - 1, j) not in visit:
-                board[rows - 1][j] = "U"
-                find(rows - 1, j)
-        for i in range(rows - 2, 0, -1):
-            if board[i][0] == "O" and (i, 0) not in visit:
-                board[i][0] = "U"
-                find(i, 0)
+            if board[0][j] == "O":
+                check.add((0, j))
+            if board[rows - 1][j] == "O":
+                check.add((rows - 1, j))
+        for i in range(rows):
+            if board[i][0] == "O":
+                check.add((i, 0))
+            if board[i][cols - 1] == "O":
+                check.add((i, cols - 1))
+        def find(i, j):
+            helper = deque()
+            helper.append((i, j))
+            visit.add((i, j))
+            board[i][j] = '!'
+            while helper:
+                r, c = helper.popleft()
+                for dr, dc in [1, 0], [0, 1], [-1, 0], [0, -1]:
+                    rr, cc = r + dr, dc + c
+                    if 0 <= rr < rows and 0 <= cc < cols and board[rr][cc] == "O" and (rr, cc) not in visit:
+                        visit.add((rr, cc))
+                        board[rr][cc] = '!'
+                        helper.append((rr, cc))
+        for i, j in check:
+            if (i, j) not in visit:
+                find(i, j)
         for i in range(rows):
             for j in range(cols):
                 if board[i][j] == "O":
                     board[i][j] = "X"
-                elif board[i][j] == "U":
+                elif board[i][j] == "!":
+                    board[i][j] = "O"
+
+#or
+
+class Solution:
+    def solve(self, board: list[list[str]]) -> None:
+        rows, cols = len(board), len(board[0])
+        check, visit = set(), set()
+        for j in range(cols):
+            if board[0][j] == "O":
+                check.add((0, j))
+            if board[rows - 1][j] == "O":
+                check.add((rows - 1, j))
+        for i in range(rows):
+            if board[i][0] == "O":
+                check.add((i, 0))
+            if board[i][cols - 1] == "O":
+                check.add((i, cols - 1))
+        def find(i, j):
+            if i < 0 or i >= rows or j < 0 or j >= cols or board[i][j] != "O" or (i, j) in visit:
+                return
+            visit.add((i, j))
+            board[i][j] = "!"
+            find(i + 1, j)
+            find(i - 1, j)
+            find(i, j + 1)
+            find(i, j - 1)
+        for i, j in check:
+            if (i, j) not in visit:
+                find(i, j)
+        for i in range(rows):
+            for j in range(cols):
+                if board[i][j] == "O":
+                    board[i][j] = "X"
+                elif board[i][j] == "!":
                     board[i][j] = "O"

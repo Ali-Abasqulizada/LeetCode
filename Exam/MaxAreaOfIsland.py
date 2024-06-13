@@ -23,3 +23,19 @@ class Solution:
                 if (i, j) not in visit and grid[i][j]:
                     ans = max(ans, find(i, j))
         return ans
+    
+class Solution:
+    def maxAreaOfIsland(self, grid: list[list[int]]) -> int:
+        rows, cols = len(grid), len(grid[0])
+        ans = 0
+        visit = set()
+        def find(i, j, check):
+            if i < 0 or i >= rows or j < 0 or j >= cols or (i, j) in check or not grid[i][j]:
+                return 0
+            check.add((i, j))
+            return 1 + find(i + 1, j, check) + find(i, j + 1, check) + find(i - 1, j, check) + find(i, j - 1, check)
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] and (i, j) not in visit:
+                    ans = max(ans, find(i, j, visit))
+        return ans
