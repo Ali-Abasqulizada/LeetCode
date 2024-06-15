@@ -46,6 +46,21 @@ class Solution:
             return ans
         return find(0, True)
 
+#or
+
+class Solution:
+    def maxProfit(self, prices: list[int]) -> int:
+        n = len(prices)
+        buy = [0] * n
+        sell = [0] * n
+        rest = [0] * n
+        buy[0] = -prices[0]
+        for i in range(1, n):
+            buy[i] = max(buy[i - 1], rest[i - 1] - prices[i])
+            sell[i] = buy[i - 1] + prices[i]
+            rest[i] = max(rest[i - 1], sell[i - 1])
+        return max(sell[-1], rest[-1])
+
 '''
 Example 1:
 
