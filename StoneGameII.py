@@ -30,7 +30,25 @@ class Solution:
                     ans = min(ans, find(not alice, x + i, max(m, x)))
             return ans
         return find(True, 0, 1)
-    
+
+#or
+
+class Solution:
+    def stoneGameII(self, piles: list[int]) -> int:
+        check = [[0] * (len(piles) + 1) for _ in range(len(piles))]
+        totals = [0] * len(piles)
+        totals[-1] = piles[-1]
+        for i in range(len(piles) - 2, -1, -1):
+            totals[i] = totals[i + 1] + piles[i]
+        for i in range(len(piles) - 1, -1, -1):
+            for m in range(1, len(piles) + 1):
+                if i + 2 * m >= len(piles):
+                    check[i][m] = totals[i]
+                else:
+                    for x in range(1, 2 * m + 1):
+                        check[i][m] = max(check[i][m], totals[i] - check[i + x][max(x, m)])
+        return check[0][1]
+
 '''
 Example 1:
 

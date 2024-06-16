@@ -31,6 +31,31 @@ class Solution:
                 return []
         return ans
 
+#or
+
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: list[list[int]]) -> list[int]:
+        check = [[] for _ in range(numCourses)]
+        count = [0 for _ in range(numCourses)]
+        for cor, pre in prerequisites:
+            check[pre].append(cor)
+            count[cor] += 1
+        stack = []
+        for cor in range(numCourses):
+            if count[cor] == 0:
+                stack.append(cor)
+        ans = []
+        while stack:
+            pre = stack.pop()
+            ans.append(pre)
+            for cor in check[pre]:
+                count[cor] -= 1
+                if count[cor] == 0:
+                    stack.append(cor)
+        if len(ans) == numCourses:
+            return ans
+        return []
+
 '''
 Example 1:
 
